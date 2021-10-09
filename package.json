@@ -1,7 +1,7 @@
 {
   "name": "ts-schema-validator",
   "version": "0.0.0",
-  "description": "",
+  "description": "Validate TypeScript objects based on their type definitions using your validation library of choice.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "directories": {
@@ -23,8 +23,12 @@
     "type": "git",
     "url": "git+https://github.com/PDMLab/ts-schema-validator.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "typescript",
+    "validation",
+    "validator"
+  ],
+  "author": "Alexander Zeiter <alexander.zeitler@pdmlab.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PDMLab/ts-schema-validator/issues"
