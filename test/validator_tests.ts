@@ -1,6 +1,6 @@
 import 'should'
 
-import { default as v } from 'validator'
+import { isEmail } from 'validator'
 
 import validate from '../src/index'
 
@@ -30,7 +30,7 @@ describe('validator', () => {
         prop: (c) => c.email,
         validations: [
           (value) => notNullOrUndefined(value),
-          (value) => value && v.isEmail(value)
+          (value) => value && isEmail(value)
         ]
       }
     ])
@@ -52,7 +52,7 @@ describe('validator', () => {
         prop: (p) => p.contactPerson.email,
         validations: [
           (value) => notNullOrUndefined(value),
-          (value) => v.isEmail(value)
+          (value) => isEmail(value)
         ]
       }
     ])
