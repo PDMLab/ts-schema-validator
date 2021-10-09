@@ -2,7 +2,7 @@ import get from 'lodash.get'
 import set from 'lodash.set'
 import { nameof } from 'ts-simple-nameof'
 
-export default function validator<T>(
+export default function validate<T>(
   object: T,
   properties: {
     prop: (obj: T) => string

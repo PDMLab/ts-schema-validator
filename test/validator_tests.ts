@@ -1,6 +1,6 @@
 import 'should'
 import { default as v } from 'validator'
-import validator from '../src/index'
+import validate from '../src/index'
 
 type ContactPerson = {
   firstName: string
@@ -26,7 +26,7 @@ describe('validator', () => {
         email: 'jane.doe@acme.com'
       }
     }
-    const result = validator<Customer>(sut, [
+    const result = validate<Customer>(sut, [
       {
         prop: (p) => p.contactPerson.email,
         validations: [
