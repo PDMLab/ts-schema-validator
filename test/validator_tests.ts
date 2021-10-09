@@ -1,5 +1,7 @@
 import 'should'
+
 import { default as v } from 'validator'
+
 import validate from '../src/index'
 
 type ContactPerson = {
@@ -17,6 +19,25 @@ const notNullOrUndefined = (str): boolean =>
   !(str === null || typeof str === 'undefined')
 
 describe('validator', () => {
+  it('should validate types', (done) => {
+    const sut: ContactPerson = {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: null
+    }
+    const result = validate<ContactPerson>(sut, [
+      {
+        prop: (c) => c.email,
+        validations: [
+          (value) => notNullOrUndefined(value),
+          (value) => value && v.isEmail(value)
+        ]
+      }
+    ])
+    result.email[0].should.be.false()
+    done()
+  })
+
   it('should validate nested types', (done) => {
     const sut: Customer = {
       companyName: 'Acme Corp.',
