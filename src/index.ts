@@ -35,6 +35,6 @@ export type ValidationResult<T> =
   | {
       [K in keyof T]?: T[K] extends Record<string, unknown>
         ? ValidationResult<T[K]>
-        : Result<T[K], ValidationError>
+        : Result<T[K], ValidationError>[]
     }
   | never

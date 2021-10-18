@@ -1,6 +1,6 @@
 import 'should'
 
-import { Err, Ok, Result } from 'ts-results'
+import { Err, Ok } from 'ts-results'
 import isEmail from 'validator/lib/isEmail'
 
 import validate, { ValidationError } from '../src/index'
@@ -41,10 +41,12 @@ describe('validator', () => {
         ]
       }
     ])
-    result.email[0].err &&
-      result.email[0].val.message.should.equal('Email must not be empty')
-    result.email[1].err &&
-      result.email[1].val.message.should.equal('Email must be an email address')
+    result.email
+      .some((r) => r.err && r.val.message === 'Email must not be empty')
+      .should.be.true()
+    result.email
+      .some((r) => r.err && r.val.message === 'Email must be an email address')
+      .should.be.true()
     done()
   })
 
@@ -70,8 +72,9 @@ describe('validator', () => {
         ]
       }
     ])
-    result.contactPerson.email[0].val.should.equal('jane.doe@acme.com')
-    result.contactPerson.email[1].val.should.equal('jane.doe@acme.com')
+    result.contactPerson.email
+      .every((r) => r.val === 'jane.doe@acme.com')
+      .should.be.true()
     done()
   })
 })
