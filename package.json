@@ -1,6 +1,6 @@
 {
   "name": "ts-schema-validator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Validate TypeScript objects based on their type definitions using your validation library of choice.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
