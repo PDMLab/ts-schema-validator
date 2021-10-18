@@ -66,9 +66,11 @@ describe('validator', () => {
           (value) =>
             notNullOrUndefined(value)
               ? Ok(value)
-              : Err(new ValidationError('bäm')),
+              : Err(new ValidationError('"Email" is required')),
           (value) =>
-            isEmail(value) ? Ok(value) : Err(new ValidationError('bäm'))
+            isEmail(value)
+              ? Ok(value)
+              : Err(new ValidationError('Email must an email address'))
         ]
       }
     ])
