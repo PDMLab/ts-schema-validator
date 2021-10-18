@@ -1,12 +1,21 @@
 import get from 'lodash.get'
 import set from 'lodash.set'
+import { Result } from 'ts-results'
 import { nameof } from 'ts-simple-nameof'
+
+export class ValidationError extends Error {
+  type: string
+  constructor(message: string) {
+    super(message)
+    this.type = 'ValidationError'
+  }
+}
 
 export default function validate<T>(
   object: T,
   properties: {
     prop: (obj: T) => string
-    validations: ((param) => boolean)[]
+    validations: ((param) => Result<string, ValidationError>)[]
   }[]
 ): ValidationResult<T> {
   const result: ValidationResult<T> = {}
@@ -26,6 +35,6 @@ export type ValidationResult<T> =
   | {
       [K in keyof T]?: T[K] extends Record<string, unknown>
         ? ValidationResult<T[K]>
-        : boolean[]
+        : Result<T[K], ValidationError>
     }
   | never

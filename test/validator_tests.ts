@@ -1,8 +1,9 @@
 import 'should'
 
-import { isEmail } from 'validator'
+import { Err, Ok, Result } from 'ts-results'
+import isEmail from 'validator/lib/isEmail'
 
-import validate from '../src/index'
+import validate, { ValidationError } from '../src/index'
 
 type ContactPerson = {
   firstName: string
@@ -29,12 +30,21 @@ describe('validator', () => {
       {
         prop: (c) => c.email,
         validations: [
-          (value) => notNullOrUndefined(value),
-          (value) => value && isEmail(value)
+          (value) =>
+            notNullOrUndefined(value)
+              ? Ok(value)
+              : Err(new ValidationError('Email must not be empty')),
+          (value) =>
+            value && isEmail(value)
+              ? Ok(value)
+              : Err(new ValidationError('Email must be an email address'))
         ]
       }
     ])
-    result.email[0].should.be.false()
+    result.email[0].err &&
+      result.email[0].val.message.should.equal('Email must not be empty')
+    result.email[1].err &&
+      result.email[1].val.message.should.equal('Email must be an email address')
     done()
   })
 
@@ -51,13 +61,17 @@ describe('validator', () => {
       {
         prop: (p) => p.contactPerson.email,
         validations: [
-          (value) => notNullOrUndefined(value),
-          (value) => isEmail(value)
+          (value) =>
+            notNullOrUndefined(value)
+              ? Ok(value)
+              : Err(new ValidationError('bäm')),
+          (value) =>
+            isEmail(value) ? Ok(value) : Err(new ValidationError('bäm'))
         ]
       }
     ])
-    result.contactPerson.email[0].should.be.true()
-    result.contactPerson.email[1].should.be.true()
+    result.contactPerson.email[0].val.should.equal('jane.doe@acme.com')
+    result.contactPerson.email[1].val.should.equal('jane.doe@acme.com')
     done()
   })
 })
