@@ -14,7 +14,7 @@ export class ValidationError extends Error {
 export default function validate<T>(
   object: T,
   properties: {
-    prop: (obj: T) => string
+    prop: (obj: T) => unknown
     validations: ((param) => Result<string, ValidationError>)[]
   }[]
 ): ValidationResult<T> {
